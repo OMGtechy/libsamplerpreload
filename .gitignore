@@ -1,3 +1,6 @@
+# Common build dirs
+build
+
 # Prerequisites
 *.d
 
