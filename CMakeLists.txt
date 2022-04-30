@@ -4,6 +4,7 @@ project(samplerpreload VERSION 0.0.1 LANGUAGES CXX)
 enable_testing()
 
 add_compile_options(-Wall -Wextra -pedantic -Werror)
+add_link_options(-Wl,--no-undefined)
 
 set(CMAKE_CXX_STANDARD 20)
 
@@ -14,10 +15,21 @@ include(FetchContent)
 FetchContent_Declare(
     libsignalsampler
     GIT_REPOSITORY https://github.com/OMGtechy/libsignalsampler.git
-    GIT_TAG 1280c7f72c36e11a033737ebf38750eb98e6bfdb
+    GIT_TAG 3ae7504d603966ecf727b183db214eb5a2dc5dec
 )
 
 FetchContent_MakeAvailable(libsignalsampler)
 
-add_library(samplerpreload SHARED source/samplerpreload.cpp)
-target_link_libraries(samplerpreload signalsampler)
+FetchContent_Declare(
+    libsignalsafe
+    GIT_REPOSITORY https://github.com/OMGtechy/libsignalsafe.git
+    GIT_TAG c1e1b113cecb4ebd4433834ac4b375ddfdfd9b6e
+)
+
+FetchContent_MakeAvailable(libsignalsafe)
+
+add_library(samplerpreload SHARED source/preload.cpp source/trace.cpp source/trace-file.cpp)
+target_include_directories(samplerpreload PUBLIC include)
+target_link_libraries(samplerpreload rt signalsampler signalsafe)
+
+add_subdirectory(test)
