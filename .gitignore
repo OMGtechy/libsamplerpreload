@@ -1,6 +1,9 @@
 # Common build dirs
 build
 
+# Visual Studio Code
+.vscode
+
 # Prerequisites
 *.d
 
