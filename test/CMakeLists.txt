@@ -14,3 +14,8 @@ add_executable(samplerpreload-test source/samplerpreload-test.cpp source/setting
 target_compile_options(samplerpreload-test PRIVATE -DCATCH_CONFIG_DISABLE_MATCHERS -DCATCH_CONFIG_FAST_COMPILE)
 target_include_directories(samplerpreload-test PUBLIC include)
 target_link_libraries(samplerpreload-test Catch2::Catch2 samplerpreload)
+
+add_test(
+    NAME samplerpreload-test
+    COMMAND $<TARGET_FILE:samplerpreload-test>
+)
