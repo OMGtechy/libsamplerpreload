@@ -12,7 +12,7 @@ SCENARIO("samplerpreload::Settings", "[settings]") {
             settings.set_samples_per_second(42);
 
             THEN("its getter returns 42") {
-                REQUIRE(settings.get_samples_per_second());
+                REQUIRE(settings.get_samples_per_second() == 42);
             }
 
             AND_WHEN("it is written to the environment") {
