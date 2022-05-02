@@ -96,7 +96,7 @@ namespace {
     void ctor() {
         const auto settings = Settings::read_from_env();
 
-        traceFile = TraceFile::create_and_open("placeholder.trace", TraceFile::Permissions::WriteOnly);
+        traceFile = TraceFile::create_and_open(settings.get_trace_file_path().native(), TraceFile::Permissions::WriteOnly);
 
         {
             const auto signalToUse = SIGPROF;
