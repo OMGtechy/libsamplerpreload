@@ -34,6 +34,8 @@ Trace Trace::from(std::span<const unsigned char> data) {
 
             sample.backtrace.push_back(ip);
         }
+
+        trace.m_samples.push_back(sample);
     }
 
     return trace;
