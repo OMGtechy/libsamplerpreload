@@ -10,12 +10,12 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(catch)
 
-add_executable(samplerpreload-test source/samplerpreload-test.cpp source/settings-test.cpp source/trace-test.cpp)
-target_compile_options(samplerpreload-test PRIVATE -DCATCH_CONFIG_DISABLE_MATCHERS -DCATCH_CONFIG_FAST_COMPILE)
-target_include_directories(samplerpreload-test PUBLIC include)
-target_link_libraries(samplerpreload-test Catch2::Catch2 samplerpreload)
+add_executable(samplerpreload-utils-test source/samplerpreload-utils-test.cpp source/settings-test.cpp source/trace-test.cpp)
+target_compile_options(samplerpreload-utils-test PRIVATE -DCATCH_CONFIG_DISABLE_MATCHERS -DCATCH_CONFIG_FAST_COMPILE)
+target_include_directories(samplerpreload-utils-test PUBLIC include)
+target_link_libraries(samplerpreload-utils-test Catch2::Catch2 samplerpreload-utils)
 
 add_test(
-    NAME samplerpreload-test
-    COMMAND $<TARGET_FILE:samplerpreload-test>
+    NAME samplerpreload-utils-test
+    COMMAND $<TARGET_FILE:samplerpreload-utils-test>
 )

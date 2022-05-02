@@ -28,8 +28,13 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(libsignalsafe)
 
-add_library(samplerpreload SHARED source/preload.cpp source/settings.cpp source/trace.cpp source/trace-file.cpp)
+add_library(samplerpreload SHARED source/preload.cpp)
+add_library(samplerpreload-utils SHARED source/settings.cpp source/trace.cpp source/trace-file.cpp)
+
 target_include_directories(samplerpreload PUBLIC include)
-target_link_libraries(samplerpreload rt signalsampler signalsafe)
+target_include_directories(samplerpreload-utils PUBLIC include)
+
+target_link_libraries(samplerpreload rt samplerpreload-utils)
+target_link_libraries(samplerpreload-utils signalsampler signalsafe)
 
 add_subdirectory(test)
