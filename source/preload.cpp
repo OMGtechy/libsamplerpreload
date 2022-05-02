@@ -9,12 +9,14 @@
 
 #include <signalsampler/sampler.hpp>
 
+#include <samplerpreload/settings.hpp>
 #include <samplerpreload/trace-file.hpp>
 
 using signalsafe::time::now;
 
 using signalsampler::get_backtrace;
 
+using samplerpreload::Settings;
 using samplerpreload::TraceFile;
 
 namespace {
@@ -92,6 +94,8 @@ namespace {
 
     [[gnu::constructor]]
     void ctor() {
+        const auto settings = Settings::read_from_env();
+
         traceFile = TraceFile::create_and_open("placeholder.trace", TraceFile::Permissions::WriteOnly);
 
         {
@@ -100,7 +104,7 @@ namespace {
             timer = setup_signal_timer(signalToUse);
         }
 
-        start_timer(timer, 1);
+        start_timer(timer, settings.get_samples_per_second());
     }
 
     [[gnu::destructor]]
