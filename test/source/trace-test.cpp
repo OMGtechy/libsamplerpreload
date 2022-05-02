@@ -35,7 +35,7 @@ SCENARIO("samplerpreload::Trace", "[trace]") {
                 const auto s1 = samples[0];
                 REQUIRE(s1.timestamp.seconds == 2524);
                 REQUIRE(s1.timestamp.nanoseconds == 870771439);
-                REQUIRE(s1.backtrace.size() == 5);
+                REQUIRE(s1.backtrace.size() == 6);
                 REQUIRE(s1.backtrace[0] == 140085644580448);
                 REQUIRE(s1.backtrace[1] == 140085641322688);
                 REQUIRE(s1.backtrace[2] == 140085641976936);
@@ -48,7 +48,7 @@ SCENARIO("samplerpreload::Trace", "[trace]") {
                 const auto s2 = samples[1];
                 REQUIRE(s2.timestamp.seconds == 2525);
                 REQUIRE(s2.timestamp.nanoseconds == 870768701);
-                REQUIRE(s2.backtrace.size() == 5);
+                REQUIRE(s2.backtrace.size() == 6);
                 REQUIRE(s2.backtrace[0] == 140085644580448);
                 REQUIRE(s2.backtrace[1] == 140085641322688);
                 REQUIRE(s2.backtrace[2] == 140085641976936);
