@@ -20,11 +20,11 @@ Trace Trace::from(std::span<const unsigned char> data) {
     Trace trace;
 
     {
-        uint64_t ProcMapsRangeCount = 0;
-        read_and_advance(ProcMapsRangeCount, data);
-        trace.m_procMaps.ranges.resize(ProcMapsRangeCount);
+        uint64_t procMapsRangeCount = 0;
+        read_and_advance(procMapsRangeCount, data);
+        trace.m_procMaps.ranges.resize(procMapsRangeCount);
 
-        for(uint64_t i = 0; i < ProcMapsRangeCount; ++i) {
+        for(uint64_t i = 0; i < procMapsRangeCount; ++i) {
             auto& range = trace.m_procMaps.ranges.at(i);
             read_and_advance(range.start, data);
             read_and_advance(range.end, data);
