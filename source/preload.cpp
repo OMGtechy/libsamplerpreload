@@ -1,6 +1,7 @@
 #include <atomic>
 #include <cassert>
 #include <cmath>
+#include <fstream>
 
 #include <signal.h>
 #include <ucontext.h>
@@ -17,6 +18,7 @@ using signalsafe::time::now;
 using signalsampler::get_backtrace;
 
 using samplerpreload::Settings;
+using samplerpreload::Trace;
 using samplerpreload::TraceFile;
 
 namespace {
@@ -92,11 +94,44 @@ namespace {
         timer_settime(timer, 0, &timerSpec, NULL);
     }
 
+    Trace::ProcMaps get_proc_maps() {
+        Trace::ProcMaps procMaps;
+
+        std::ifstream procMapsFile("/proc/self/maps");
+
+        while (true) {
+            std::string rangeString;
+            std::string dummy;
+
+            procMapsFile >> rangeString;
+
+            if (procMapsFile.eof()) {
+                break;
+            }
+
+            std::getline(procMapsFile, dummy); // ignore the rest of the line
+
+            const auto hyphenOffset = rangeString.find('-');
+            assert(hyphenOffset != std::string::npos);
+
+            const auto rangeStartString = rangeString.substr(0, hyphenOffset);
+            const auto rangeEndString = rangeString.substr(hyphenOffset + 1); 
+
+            procMaps.ranges.push_back({
+                Trace::ProcMaps::Range { std::stoull(rangeStartString, 0, 16), std::stoull(rangeEndString, 0, 16) }
+            });
+        }
+
+        return procMaps;
+    }
+
     [[gnu::constructor]]
     void ctor() {
         const auto settings = Settings::read_from_env();
 
         traceFile = TraceFile::create_and_open(settings.get_trace_file_path().native(), TraceFile::Permissions::WriteOnly);
+
+        traceFile.add_proc_maps(get_proc_maps());
 
         {
             const auto signalToUse = SIGPROF;
