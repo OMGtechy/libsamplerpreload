@@ -52,6 +52,7 @@ namespace {
 
         const auto success = sigaction(signal, &action, NULL) == 0;
         assert(success);
+        (void)success;
     }
 
     timer_t setup_signal_timer(const int signal) {
@@ -63,6 +64,7 @@ namespace {
 
         const auto success = timer_create(clockToUse, &signalEvent, &timer) == 0;
         assert(success);
+        (void)success;
         
         return timer;
     }
@@ -80,6 +82,7 @@ namespace {
 
         const auto success = timer_settime(timer, 0, &timerSpec, NULL) == 0;
         assert(success);
+        (void)success;
     }
 
     void stop_timer(timer_t timer) {
