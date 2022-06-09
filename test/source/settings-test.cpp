@@ -59,6 +59,7 @@ SCENARIO("samplerpreload::Settings", "[settings]") {
         WHEN("each function is called") {
             THEN("it doesn't crash") {
                 auto* const settings = samplerpreload_settings_ctor();
+                samplerpreload_settings_set_samples_per_second(settings, 42.0);
                 samplerpreload_settings_set_trace_file_path(settings, "foobar");
                 samplerpreload_settings_write_to_env(settings);
                 samplerpreload_settings_dtor(settings);

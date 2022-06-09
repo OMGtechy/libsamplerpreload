@@ -56,6 +56,10 @@ extern "C" {
         reinterpret_cast<Settings*>(instance)->~Settings();
     }
 
+    void samplerpreload_settings_set_samples_per_second(void* const instance, double samplesPerSecond) {
+        reinterpret_cast<Settings*>(instance)->set_samples_per_second(samplesPerSecond);
+    }
+
     void samplerpreload_settings_set_trace_file_path(void* const instance, const char* const traceFilePath) {
         reinterpret_cast<Settings*>(instance)->set_trace_file_path(traceFilePath);
     }
