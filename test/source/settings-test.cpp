@@ -52,4 +52,17 @@ SCENARIO("samplerpreload::Settings", "[settings]") {
             }
         }
     }
+
+    // Not really an extensive set of tests - it should just call the C++ API internally.
+    // These are more about making sure there's nothing lost in translation / code-as-documentation.
+    GIVEN("the C API") {
+        WHEN("each function is called") {
+            THEN("it doesn't crash") {
+                auto* const settings = samplerpreload_settings_ctor();
+                samplerpreload_settings_set_trace_file_path(settings, "foobar");
+                samplerpreload_settings_write_to_env(settings);
+                samplerpreload_settings_dtor(settings);
+            }
+        }
+    }
 }

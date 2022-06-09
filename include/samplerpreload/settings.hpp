@@ -19,3 +19,11 @@ namespace samplerpreload {
         std::filesystem::path m_traceFilePath;
     };
 }
+
+extern "C" {
+    void* samplerpreload_settings_ctor();
+    void samplerpreload_settings_dtor(void* instance);
+
+    void samplerpreload_settings_set_trace_file_path(void* instance, const char*);
+    void samplerpreload_settings_write_to_env(void* instance);
+}

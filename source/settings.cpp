@@ -44,3 +44,23 @@ void Settings::write_to_env() {
     setenv(samplesPerSecondEnvVar, std::to_string(get_samples_per_second()).c_str(), 1);
     setenv(traceFilePathEnvVar, get_trace_file_path().c_str(), 1);
 }
+
+// C API
+
+extern "C" {
+    void* samplerpreload_settings_ctor() {
+        return new Settings;
+    }
+
+    void samplerpreload_settings_dtor(void* const instance) {
+        reinterpret_cast<Settings*>(instance)->~Settings();
+    }
+
+    void samplerpreload_settings_set_trace_file_path(void* const instance, const char* const traceFilePath) {
+        reinterpret_cast<Settings*>(instance)->set_trace_file_path(traceFilePath);
+    }
+
+    void samplerpreload_settings_write_to_env(void* const instance) {
+        reinterpret_cast<Settings*>(instance)->write_to_env();
+    }
+}
