@@ -3,7 +3,7 @@ project(samplerpreload VERSION 0.0.1 LANGUAGES CXX)
 
 enable_testing()
 
-add_compile_options(-Wall -Wextra -pedantic -Werror)
+add_compile_options(-fPIC -Wall -Wextra -pedantic -Werror)
 add_link_options(-Wl,--no-undefined)
 
 set(CMAKE_CXX_STANDARD 20)
@@ -29,7 +29,7 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(libsignalsafe)
 
 add_library(samplerpreload SHARED source/preload.cpp)
-add_library(samplerpreload-utils SHARED source/settings.cpp source/trace.cpp source/trace-file.cpp)
+add_library(samplerpreload-utils source/settings.cpp source/trace.cpp source/trace-file.cpp)
 
 target_include_directories(samplerpreload PUBLIC include)
 target_include_directories(samplerpreload-utils PUBLIC include)
