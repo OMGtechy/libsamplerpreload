@@ -8,8 +8,8 @@ add_link_options(-Wl,--no-undefined)
 
 set(CMAKE_CXX_STANDARD 20)
 
-set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -fsanitize=undefined -fno-omit-frame-pointer -g3")
-set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -fsanitize=undefined -fno-omit-frame-pointer -g3")
+set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -fno-omit-frame-pointer -g3")
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -fno-omit-frame-pointer -g3")
 
 include(FetchContent)
 FetchContent_Declare(
@@ -36,5 +36,28 @@ target_include_directories(samplerpreload-utils PUBLIC include)
 
 target_link_libraries(samplerpreload rt samplerpreload-utils)
 target_link_libraries(samplerpreload-utils signalsampler signalsafe)
+
+if(ENABLE_UBSAN)
+    target_compile_options(
+        samplerpreload
+        PRIVATE
+        -fsanitize=undefined
+    )
+    target_link_options(
+        samplerpreload
+        PUBLIC
+        -fsanitize=undefined
+    )
+    target_compile_options(
+        samplerpreload-utils
+        PRIVATE
+        -fsanitize=undefined
+    )
+    target_link_options(
+        samplerpreload-utils
+        PUBLIC
+        -fsanitize=undefined
+    )
+endif()
 
 add_subdirectory(test)
