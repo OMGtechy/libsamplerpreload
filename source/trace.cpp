@@ -19,18 +19,6 @@ namespace {
 Trace Trace::from(std::span<const unsigned char> data) {
     Trace trace;
 
-    {
-        uint64_t procMapsRangeCount = 0;
-        read_and_advance(procMapsRangeCount, data);
-        trace.m_procMaps.ranges.resize(procMapsRangeCount);
-
-        for(uint64_t i = 0; i < procMapsRangeCount; ++i) {
-            auto& range = trace.m_procMaps.ranges.at(i);
-            read_and_advance(range.start, data);
-            read_and_advance(range.end, data);
-        }
-    }
-
     while(! data.empty()) {
         Sample sample;
         read_and_advance(sample.timestamp.seconds, data);
@@ -55,8 +43,4 @@ Trace Trace::from(std::span<const unsigned char> data) {
 
 std::vector<Trace::Sample> Trace::get_samples() const {
     return m_samples;
-}
-
-Trace::ProcMaps Trace::get_proc_maps() const {
-    return m_procMaps;
 }

@@ -14,8 +14,6 @@ namespace samplerpreload {
 
         static TraceFile create_and_open(std::string_view path, Permissions permissions);
 
-        void add_proc_maps(Trace::ProcMaps&&);
-
         template <std::size_t BacktraceSize>
         void add_sample(signalsafe::time::TimeSpecification&& timestamp, signalsampler::backtrace_t<BacktraceSize>&& backtrace) {
             write(timestamp.seconds);
