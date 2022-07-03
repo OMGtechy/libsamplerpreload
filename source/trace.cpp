@@ -44,3 +44,37 @@ Trace Trace::from(std::span<const unsigned char> data) {
 std::vector<Trace::Sample> Trace::get_samples() const {
     return m_samples;
 }
+
+extern "C" {
+    void* samplerpreload_trace_from(const unsigned char* const data, const size_t dataLength) {
+        return new Trace(Trace::from({data, dataLength}));
+    }
+
+    void samplerpreload_trace_dtor(void* const trace) {
+        reinterpret_cast<Trace*>(trace)->~Trace();
+    }
+
+    size_t samplerpreload_trace_get_sample_count(const void* const trace) {
+        return reinterpret_cast<const Trace*>(trace)->m_samples.size();
+    }
+
+    const void* samplerpreload_trace_get_sample_reference(const void* const trace, const size_t n) {
+        return &(reinterpret_cast<const Trace*>(trace)->m_samples[n]);
+    }
+
+    int64_t samplerpreload_sample_get_timestamp_seconds(const void* const sample) {
+        return reinterpret_cast<const Trace::Sample*>(sample)->timestamp.seconds;
+    }
+
+    int64_t samplerpreload_sample_get_timestamp_nanoseconds(const void* const sample) {
+        return reinterpret_cast<const Trace::Sample*>(sample)->timestamp.nanoseconds;
+    }
+
+    size_t samplerpreload_sample_get_backtrace_size(const void* const sample) {
+        return reinterpret_cast<const Trace::Sample*>(sample)->backtrace.size();
+    }
+
+    uint64_t samplerpreload_sample_get_backtrace_entry(const void* const sample, const size_t n) {
+        return reinterpret_cast<const Trace::Sample*>(sample)->backtrace[n];
+    }
+}
