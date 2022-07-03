@@ -14,7 +14,7 @@ extern "C" {
     const void*  samplerpreload_trace_get_sample_reference(const void* trace, size_t n);
 
     int64_t  samplerpreload_sample_get_timestamp_seconds(const void* sample);
-    int64_t  samplerpreload_sample_get_timestamp_nanoqseconds(const void* sample);
+    int64_t  samplerpreload_sample_get_timestamp_nanoseconds(const void* sample);
     size_t   samplerpreload_sample_get_backtrace_size(const void* sample);
     uint64_t samplerpreload_sample_get_backtrace_entry(const void* sample, size_t n);
 }
