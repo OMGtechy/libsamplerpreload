@@ -21,19 +21,7 @@ namespace samplerpreload {
 
         std::vector<Sample> get_samples() const;
 
-        struct ProcMaps final {
-            struct Range final {
-                signalsampler::instruction_pointer_t start;
-                signalsampler::instruction_pointer_t end;
-            };
-
-            std::vector<Range> ranges;
-        };
-
-        ProcMaps get_proc_maps() const;
-
     private:
         std::vector<Sample> m_samples;
-        ProcMaps m_procMaps;
     };
 }
